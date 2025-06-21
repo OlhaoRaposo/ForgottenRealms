@@ -1,17 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    public CharacterController cc;
+    [Header("PlayerStats")]
     public float speed;
+    [SerializeField] private Rigidbody rb;
+    private void Start()
+    {
+        rb = this.GetComponent<Rigidbody>();
+        AudioBoard.instance.PlayAudio("BackGroundAudio");
+    }
+
     void Update()
+    {
+        PlayerMovement();
+    }
+    
+    private void PlayerMovement()
     {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
-        
+
         Vector3 move = transform.right * x + transform.forward * z;
-        cc.Move(move * speed * Time.deltaTime);
+        rb.MovePosition(transform.position + move * speed * Time.deltaTime);
     }
 }
+
